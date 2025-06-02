@@ -13,4 +13,6 @@ these templates or whatever has served their purpose, I recommend in my workflow
 reimplement.
 
 > Most code here are also licensed under very permissive licenses such as BSD-3 & MIT.
+>
+> If a file does not state the license, it will be implicitly licensed under the [root license](./LICENSE)
 
