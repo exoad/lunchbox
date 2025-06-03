@@ -41,6 +41,17 @@ typedef uintptr_t uintptr;
 typedef size_t usize;
 typedef uint32_t uint32;
 
+// shorter hand formats
+typedef int32_t i32;
+typedef int64_t i64;
+typedef int i32;
+typedef unsigned int u32;
+typedef uint64_t u64;
+typedef char i8;
+typedef unsigned char u8;
+typedef uintptr_t uptr;
+typedef size_t sz;
+
 #define ensure(ptr)                                                           \
         if ((ptr) == NULL)                                                    \
         {                                                                     \
