@@ -32,6 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <assert.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <stdio.h>
 
 typedef unsigned char uint8;
@@ -42,15 +43,24 @@ typedef size_t usize;
 typedef uint32_t uint32;
 
 // shorter hand formats
-typedef int32_t i32;
-typedef int64_t i64;
-typedef int i32;
-typedef unsigned int u32;
-typedef uint64_t u64;
-typedef char i8;
-typedef unsigned char u8;
-typedef uintptr_t uptr;
-typedef size_t sz;
+typedef int32_t I32;
+typedef long L32;
+typedef int64_t I64;
+typedef int I32;
+typedef uint32_t U32;
+typedef uint64_t U64;
+typedef char I8; // this might ignore the existence of signed char
+typedef int8_t S8; // signed char :)
+typedef uint8_t U8;
+typedef uintptr_t UPtr;
+typedef size_t Sz;
+typedef bool Bool;
+typedef float F32;
+typedef double F64;
+typedef int16_t I16;
+typedef uint16_t U16;
+typedef void U0;
+typedef void Void;
 
 #define ensure(ptr)                                                           \
         if ((ptr) == NULL)                                                    \
@@ -65,6 +75,6 @@ typedef size_t sz;
 
 // Prints the target message to stderr with debug information including file name, line number, and function name
 #define printerr(fmt, ...) \
-        fprintf(stderr, "%s:%d :: %s " fmt "\n", __FILE__, __LINE__, __func__, ##__VA_ARGS__)
+        fprintf(stderr, "\n%s:%d :: %s " fmt "\n", __FILE__, __LINE__, __func__, ##__VA_ARGS__)
 
 #endif
