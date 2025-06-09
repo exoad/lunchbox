@@ -31,7 +31,6 @@ if vim.g.neovide then
 	vim.g.neovide_cursor_vfx_mode = ""
 	vim.g.neovide_padding_left = 6
 	vim.g.neovide_scroll_animation_length = 0
-
 end
 
 vim.cmd("syntax enable")
@@ -39,14 +38,15 @@ vim.cmd("filetype plugin indent on")
 
 vim.g.mapleader = " " -- <Space>
 vim.g.maplocalleader = "\\"
-
-vim.o.tabstop = 4
-vim.o.shiftwidth = 4
-vim.o.expandtab = true
-vim.o.wrap = false
-vim.o.termguicolors = true
-vim.o.cursorline = true
-vim.o.guifont = "Roboto Mono:h12"
+vim.opt.clipboard = "unnamedplus"
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+vim.opt.wrap = false
+vim.opt.termguicolors = true
+vim.opt.cursorline = true
+vim.opt.guifont = "Roboto Mono:h10"
+vim.opt.smartindent = true
 vim.opt.number = true
 
 local line_number_toggle = vim.api.nvim_create_augroup("numbertoggle", {})
@@ -100,6 +100,25 @@ require("lazy").setup({
 	 	     end
         },
         {
+            "neovim/nvim-lspconfig",
+            dependencies  = {
+                {'hrsh7th/nvim-cmp'},
+                { 'j-hui/fidget.nvim', opts = {} },
+            }
+        },
+        {
+            "mason-org/mason.nvim",
+            opts = {
+                ui = {
+                    icons = {
+                        package_installed = "✓",
+                        package_pending = "➜",
+                        package_uninstalled = "✗"
+                    }
+                }
+            }
+        },
+        {
             "windwp/nvim-autopairs",
             event = "InsertEnter",
             config = true,
@@ -135,6 +154,14 @@ require("lazy").setup({
                 "nvim-tree/nvim-web-devicons"
             },
         },
+        {    
+            "mason-org/mason-lspconfig.nvim",
+            opts = {},
+            dependencies = {
+                { "mason-org/mason.nvim", opts = {} },
+                "neovim/nvim-lspconfig",
+            },
+	},
         {
             "nvim-telescope/telescope.nvim",
             tag = "0.1.8",
@@ -227,8 +254,8 @@ require('lualine').setup {
     lualine_a = {'mode'},
     lualine_b = {'branch', 'diff', 'diagnostics'},
     lualine_c = {'filename'},
-    lualine_x = {'encoding', 'fileformat', 'filetype'},
-    lualine_y = {'progress'},
+    lualine_x = {'filetype'},
+    lualine_y = {},
     lualine_z = {'location'}
   },
   inactive_sections = {
