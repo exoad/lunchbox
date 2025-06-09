@@ -1,0 +1,8 @@
+[font]
+size = 10
+edging = "subpixelantialias"
+hinting = "none"
+
+[[font.normal]]
+family = "Menlo"
+style = "W600"
