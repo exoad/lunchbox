@@ -31,6 +31,7 @@ if vim.g.neovide then
 	vim.g.neovide_cursor_vfx_mode = ""
 	vim.g.neovide_padding_left = 6
 	vim.g.neovide_scroll_animation_length = 0
+   
 end
 
 vim.cmd("syntax enable")
@@ -45,7 +46,6 @@ vim.opt.expandtab = true
 vim.opt.wrap = false
 vim.opt.termguicolors = true
 vim.opt.cursorline = true
-vim.opt.guifont = "Roboto Mono:h10"
 vim.opt.smartindent = true
 vim.opt.number = true
 
@@ -104,6 +104,11 @@ require("lazy").setup({
             dependencies  = {
                 {'hrsh7th/nvim-cmp'},
                 { 'j-hui/fidget.nvim', opts = {} },
+            },
+            opts = {
+                servers = {
+                    dartls = {}
+                }
             }
         },
         {
@@ -220,7 +225,7 @@ require("lazy").setup({
 require('lualine').setup {
   options = {
     icons_enabled = false,
-    theme = 'auto',
+    theme = 'gruvbox_dark',
     component_separators = "|",
     section_separators = { left = '', right = ''},
     disabled_filetypes = {
@@ -235,7 +240,7 @@ require('lualine').setup {
       statusline = 1000,
       tabline = 1000,
       winbar = 1000,
-      refresh_time = 14,
+      refresh_time = 16,
       events = {
         'WinEnter',
         'BufEnter',
@@ -251,8 +256,29 @@ require('lualine').setup {
     }
   },
   sections = {
-    lualine_a = {'mode'},
-    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_a = {'mode'}, 
+    lualine_b = { 
+                function() 
+                    local hour = tonumber(os.date("%H"))
+                    local emoji = ""
+                    if hour >= 6 and hour < 10 then
+                        emoji = "🥱" -- morning
+                    elseif hour >= 10 and hour < 13 then
+                        emoji = "🌞" -- noon
+                    elseif hour >= 13 and hour < 17 then
+                        emoji = "🙂" -- afternoon
+                    elseif hour >= 17 and hour < 21 then
+                        emoji = "😌" -- evening
+                    elseif (hour >= 21 and hour <= 23) or (hour >= 0 and hour < 3) then
+                        emoji = "💤" -- latenight & midnight
+                    elseif hour >= 3 and hour < 6 then
+                        emoji = "😴" -- early morning
+                    end
+                    return emoji .. ' ' .. os.date("%H:%M")
+                end, 
+                'branch', 
+                'diff', 
+                'diagnostics'},
     lualine_c = {'filename'},
     lualine_x = {'filetype'},
     lualine_y = {},
