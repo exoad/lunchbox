@@ -27,6 +27,81 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+/*
+
+"Naming Scheme"
+
+    Functions:
+        All functions and macros must use camelCase where possible; however, it is allowed
+        to add a prefix word followed by an underscore and the function name in camelCase.
+        The latter should be used as a last resort when not specifying something like a
+        library prefix would make things too ambiguous. Additionally, functions are not
+        allowed to start nor end with underscores because it may be interpreted as a
+        visibility modifier, when such thing is not really possible.
+
+        Ok:
+            - main
+            - add2Numbers
+            - myFunction
+            - anotherReallyLongFunctionName
+            - library_myFunction
+            - clib_function
+
+        Bad:
+            - _fx
+            - _
+            - MyFunction
+            - this_function_is_not_a_library
+            - fx_
+
+    Variables:
+        Variables are to be named as short and concise as possible but fitting within a
+        meaningful english word. For example, it would be innapropriate to rename "rect"
+        to just "r", but it is fine to rename "rectangle" to "rect". Additionally, they
+        use camelCase but with the exception that underscores ARE NEVER ALLOWED unless it
+        is a constant. A constant variable should be all uppercase and each word separated
+        with an underscore. However, underscores cannot precede and succeed the name.
+
+        Ok:
+            - x
+            - someVariable
+            - MY_CONSTANT
+
+        Bad:
+            - _smallVariable
+            - x_
+            - ThiS_IsntAcOnstant
+            - _
+
+    Types:
+        Types should follow a PascalCase formatting and underscores are never allowed. If
+        a library name or other prefix word is required, it is just advised to stick that
+        word infront of the type name and following PascalCase.
+
+        Ok:
+            - MyType
+            - Vector2
+            - Vec2
+            - I32
+            - CFloat
+
+        Bad:
+            - myType
+            - vec2
+            - i32
+            - _
+            - My_Favorite_Type
+
+    Macros:
+        Macros depend on the context. A macro that redefines a type (not a function)
+        should follow standard naming schemes for a type. On the other hand, if the function
+        is either redefining another function or acts like a function-like macro should
+        follow the functions naming scheme. However, the exception are for things like FLAG
+        macro should follow the naming scheme used for a constant with the exception that
+        if they are an include guard, they can have underscores preceding and succeeding.
+
+*/
+
 #ifndef __JM_TEMPLATE_DEFS_H__
 #define __JM_TEMPLATE_DEFS_H__
 
@@ -61,6 +136,29 @@ typedef int16_t I16;
 typedef uint16_t U16;
 typedef void U0;
 typedef void Void;
+
+
+#ifdef JM_REDEFINE_SDL_TYPES
+
+typedef SDL_FRect Rect;
+typedef SDL_Event SDLEvent;
+typedef SDL_Surface SDLSurface;
+typedef SDL_Window SDLWindow;
+typedef SDLRenderer SDLRenderer;
+#define newRect(x, y, w, h) ((SDL_FRect) {x, y, w, h})
+
+// redefine some functions and stuffs so they are not so cluttered in their naming
+#define setDrawColor SDL_SetRenderDrawColor
+#define clearRender SDL_RenderClear
+#define drawRect SDL_RenderRect
+#define flushRender SDL_RenderFlush
+#define updateWindowSurface SDL_UpdateWindowSurface
+#define sdl_delay SDL_Delay
+
+
+#endif
+
+#define null (U0*) 0
 
 #define ensure(ptr)                                                           \
         if ((ptr) == NULL)                                                    \
