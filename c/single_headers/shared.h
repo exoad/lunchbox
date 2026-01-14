@@ -53,6 +53,26 @@ typedef FILE CFile;
 typedef bool Bool;
 typedef Void* Any;
 
+#if defined(_WIN32) || defined(_WIN64)
+    #if defined(build)
+        #define api __declspec(dllexport)
+    #elif defined(use)
+        #define api __declspec(dllimport)
+    #else
+        #define api
+    #endif
+#else
+    #define api
+#endif
+
+#ifdef __cplusplus
+    #define linkage extern "C"
+#else
+    #define linkage extern
+#endif
+
+#define expose linkage api
+
 #ifdef __GNUC__
 #define pure       __attribute__((pure))
 #define hot        __attribute__((hot))
