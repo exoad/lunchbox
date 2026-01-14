@@ -48,7 +48,7 @@ typedef double Float64;
 typedef int16_t Int16;
 typedef uint16_t UInt16;
 typedef void Void;
-typedef const Int8* CharSeq;
+#define CharSeq const Int8*
 typedef FILE CFile;
 typedef bool Bool;
 typedef Void* Any;
@@ -56,7 +56,7 @@ typedef Void* Any;
 #if defined(_WIN32) || defined(_WIN64)
     #if defined(build)
         #define api __declspec(dllexport)
-    #elif defined(use)
+    #elif defined(link)
         #define api __declspec(dllimport)
     #else
         #define api
@@ -95,8 +95,92 @@ typedef Void* Any;
 
 #define null NULL
 #define simple static inline
-#define use(x) (Void) (x)
 #define PI 3.14159265358979323846f
 #define sizeOf sizeof
+
+simple Bool stringEquals(CharSeq a, CharSeq b)
+{
+    if(a == b)
+    {
+        return true;
+    }
+    if(a == null || b == null)
+    {
+        return false;
+    }
+    while(*a && *b)
+    {
+        if(*a != *b)
+        {
+            return false;
+        }
+        a++;
+        b++;
+    }
+    return *a == *b;
+}
+
+#ifdef USE_DYNAMIC_LIBRARY_COMPAT_LAYER
+#ifdef _WIN32
+#include <windows.h>
+#define RTLD_LAZY 0
+
+typedef HMODULE DLHandle;
+
+static Int8 dlerrorBuffer[256];
+
+CharSeq dlerror()
+{
+    return dlerrorBuffer;
+}
+
+Any dlopen(CharSeq name, Int32 flags) {
+    (Void) flags;
+    HMODULE h = LoadLibraryA(name);
+    if(!h)
+    {
+        DWORD err = GetLastError();
+        sprintf(dlerrorBuffer, "LoadLibrary failed for %s: error %lu", name, err);
+    }
+    else
+    {
+        dlerrorBuffer[0] = '\0';
+    }
+    return h;
+}
+
+Any dlsym(Any handle, CharSeq symbol) {
+    Any p = GetProcAddress((HMODULE)handle, symbol);
+    if(!p)
+    {
+        DWORD err = GetLastError();
+        sprintf(dlerrorBuffer, "GetProcAddress failed for %s: error %lu", symbol, err);
+    }
+    else
+    {
+        dlerrorBuffer[0] = '\0';
+    }
+    return p;
+}
+
+Int32 dlclose(Any handle) {
+    if(FreeLibrary((HMODULE) handle))
+    {
+        dlerrorBuffer[0] = '\0';
+        return 0;
+    }
+    else
+    {
+        DWORD err = GetLastError();
+        sprintf(dlerrorBuffer, "FreeLibrary failed: error %lu", err);
+        return -1;
+    }
+}
+
+#else
+#include <dlfcn.h>
+typedef Any DLHandle;
+#endif
+#endif
 
 #endif
