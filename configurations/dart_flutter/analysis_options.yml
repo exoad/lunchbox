@@ -1,17 +1,76 @@
+analyzer:
+    errors:
+        unintended_html_in_doc_comment: ignore
+        prefer_spread_collections: ignore
+        empty_catches: ignore
+    exclude:
+        - "**/*.g.dart"
+
 include: package:flutter_lints/flutter.yaml
+
 linter:
-  rules:
-      always_declare_return_types: true
-      always_put_control_body_on_new_line: true
-      always_specify_types: true
-      annotate_overrides: true
-      package_api_docs: true
-      prefer_adjacent_string_concatenation: true
-      prefer_conditional_assignment: true
-      prefer_double_quotes: false
-      use_string_buffers: true
-      non_constant_identifier_names: false
-      unnecessary_new: false
-      camel_case_types: false
-      avoid_print: false
-      constant_identifier_names: false
+    rules:
+        always_specify_types: false
+        package_api_docs: false
+        public_member_api_docs: false
+        avoid_print: false
+        always_put_control_body_on_new_line: false
+        always_declare_return_types: true
+        annotate_overrides: true
+        prefer_const_constructors: true
+        prefer_const_declarations: true
+        prefer_const_constructors_in_immutables: true
+        prefer_const_literals_to_create_immutables: true
+        prefer_adjacent_string_concatenation: true
+        non_constant_identifier_names: false
+        camel_case_types: false
+        constant_identifier_names: false
+        prefer_double_quotes: false
+        unnecessary_new: true
+        use_string_buffers: true
+        unawaited_futures: true
+        cascade_invocations: true
+        avoid_unused_constructor_parameters: true
+        avoid_unnecessary_containers: true
+        cast_nullable_to_non_nullable: true
+        prefer_conditional_assignment: true
+        avoid_returning_this: true
+        combinators_ordering: true
+        prefer_final_locals: true
+        prefer_final_fields: true
+        prefer_final_in_for_each: true
+        directives_ordering: true
+        tighten_type_of_initializing_formals: true
+        avoid_relative_lib_imports: true
+        unnecessary_this: true
+        prefer_int_literals: true
+        unnecessary_null_in_if_null_operators: true
+        curly_braces_in_flow_control_structures: true
+        use_raw_strings: true
+        use_named_constants: true
+        use_truncating_division: true
+        use_decorated_box: true
+        use_colored_box: true
+        prefer_void_to_null: false
+        use_enums: true
+        use_full_hex_values_for_flutter_colors: true
+        sort_unnamed_constructors_first: true
+        slash_for_doc_comments: true
+        sized_box_for_whitespace: true
+        avoid_type_to_string: true
+        avoid_multiple_declarations_per_line: true
+        avoid_redundant_argument_values: true
+        avoid_private_typedef_functions: true
+        empty_constructor_bodies: true
+        prefer_expression_function_bodies: false
+        prefer_if_elements_to_conditional_expressions: true
+        prefer_relative_imports: false
+        prefer_single_quotes: true
+        require_trailing_commas: false
+        type_annotate_public_apis: false
+        unnecessary_breaks: true
+        unnecessary_lambdas: true
+        unnecessary_parenthesis: true
+        unnecessary_library_directive: true
+        omit_local_variable_types: true
+        avoid_types_on_closure_parameters: true
